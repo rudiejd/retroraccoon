@@ -38,6 +38,38 @@ export default function NoteDetailsPage() {
     <div>
       <h3 className="text-2xl font-bold">{data.note.title}</h3>
       <p className="py-6">{data.note.body}</p>
+
+      <div className="grid grid-cols-4 gap-4 mt-2">
+        <div className="max-w-sm rounded shadow-lg bg-cyan-500">
+          <div className="mt-2 mx-2">
+            <h3>What Went Well</h3>
+          </div>
+
+          <div className="mt-2 mx-2">
+            <p>- We did shit </p>
+          </div>
+        </div>
+
+        <div className="max-w-sm rounded shadow-lg bg-violet-500">
+          <h3>What Did&rsquo;t Go Well</h3>
+          <div className="mt-2 mx-2">
+            <p>- We did shit </p>
+          </div>
+        </div>
+        <div className="max-w-sm rounded shadow-lg bg-pink-500">
+          <h3>What Can We Do Better</h3>
+          <div className="mt-2 mx-2">
+            <p>- We did shit </p>
+          </div>
+        </div>
+        <div className="max-w-sm rounded shadow-lg bg-emerald-500">
+          <h3>Rating</h3>
+          <div className="mt-2 mx-2">
+            <p>- We did shit </p>
+          </div>
+        </div>
+      </div>
+
       <hr className="my-4" />
       <Form method="post">
         <button
