@@ -7,9 +7,6 @@ CREATE TABLE "User" (
 );
 
 
--- CreateIndex
-CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
-
 -- CreateTable
 CREATE TABLE "Password" (
     hash TEXT NOT NULL,
@@ -17,35 +14,20 @@ CREATE TABLE "Password" (
     CONSTRAINT "Password_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User" ("id") ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-
--- CreateIndex
-CREATE UNIQUE INDEX "Password_userId_key" ON "Password"("userId");
-
 -- CreateTable
-CREATE TABLE "Retro" (
-    RetroId TEXT NOT NULL PRIMARY KEY,
-    Title TEXT NOT NULL,
-    createdAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updatedAt DATETIME NOT NULL,
-    userId TEXT NOT NULL,
+CREATE TABLE "Note" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "title" TEXT NOT NULL,
+    "body" TEXT NOT NULL,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" DATETIME NOT NULL,
+    "userId" TEXT NOT NULL,
     CONSTRAINT "Note_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User" ("id") ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-CREATE TABLE "RetroCard" (
-    RetroCardId TEXT NOT NULL PRIMARY KEY,
-    Body TEXT NOT NULL,
-    CreateDate DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    UpdateDate DATETIME NOT NULL,
-    RetroColumnID TEXT NOT NULL,
-    CONSTRAINT "RetroCard_RetroId_fkey" FOREIGN KEY (RetroId) REFERENCES Retro.RetroId ON DELETE CASCADE ON UPDATE CASCADE
-);
+-- CreateIndex
+CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
-CREATE TABLE "RetroColumn" (
-    RetroColumnId TEXT NOT NULL PRIMARY KEY,
-    Body TEXT NOT NULL,
-    CreateDate DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    UpdateDate DATETIME NOT NULL,
-    RetroId TEXT NOT NULL,
-    CONSTRAINT "RetroCard_RetroId_fkey" FOREIGN KEY (RetroId) REFERENCES Retro.RetroId ON DELETE CASCADE ON UPDATE CASCADE
-);
-
+-- CreateIndex
+CREATE UNIQUE INDEX "Password_userId_key" ON "Password"("userId");
+-- CreateTable

@@ -8,18 +8,18 @@ import {
 } from "@remix-run/react";
 import invariant from "tiny-invariant";
 
-import { deleteNote, getNote } from "~/models/note.server";
+import { deleteNote, getRetro } from "~/models/note.server";
 import { requireUserId } from "~/session.server";
 
 export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   const userId = await requireUserId(request);
-  invariant(params.noteId, "noteId not found");
+  invariant(params.retroId, "retroId not found");
 
-  const note = await getNote({ id: params.noteId, userId });
-  if (!note) {
+  const retro = await getRetro({ retroId: params.retroId, userId });
+  if (!retro) {
     throw new Response("Not Found", { status: 404 });
   }
-  return json({ note });
+  return json({ note: retro });
 };
 
 export const action = async ({ params, request }: ActionFunctionArgs) => {
@@ -37,7 +37,6 @@ export default function NoteDetailsPage() {
   return (
     <div>
       <h3 className="text-2xl font-bold">{data.note.title}</h3>
-      <p className="py-6">{data.note.body}</p>
 
       <div className="grid grid-cols-4 gap-4 mt-2">
         <div className="max-w-sm rounded shadow-lg bg-cyan-500">
@@ -51,19 +50,25 @@ export default function NoteDetailsPage() {
         </div>
 
         <div className="max-w-sm rounded shadow-lg bg-violet-500">
-          <h3>What Did&rsquo;t Go Well</h3>
+          <div className="mt-2 mx-2">
+            <h3>What Did&rsquo;t Go Well</h3>
+          </div>
           <div className="mt-2 mx-2">
             <p>- We did shit </p>
           </div>
         </div>
         <div className="max-w-sm rounded shadow-lg bg-pink-500">
-          <h3>What Can We Do Better</h3>
+          <div className="mt-2 mx-2">
+            <h3>What Can We Do Better</h3>
+          </div>
           <div className="mt-2 mx-2">
             <p>- We did shit </p>
           </div>
         </div>
         <div className="max-w-sm rounded shadow-lg bg-emerald-500">
-          <h3>Rating</h3>
+          <div className="mt-2 mx-2">
+            <h3>Rating</h3>
+          </div>
           <div className="mt-2 mx-2">
             <p>- We did shit </p>
           </div>

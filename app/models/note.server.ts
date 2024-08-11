@@ -1,4 +1,4 @@
-import type { User, Note } from "@prisma/client";
+import type { User, Note, Retro } from "@prisma/client";
 
 import { prisma } from "~/db.server";
 
@@ -14,10 +14,23 @@ export function getNote({
   });
 }
 
-export function getNoteListItems({ userId }: { userId: User["id"] }) {
-  return prisma.note.findMany({
+export function getRetro({
+  retroId,
+  userId,
+}: Pick<Retro, "retroId"> & {
+  userId: User["id"];
+}) {
+  return prisma.retro.findFirst({
+    select: { retroId: true, title: true },
+    where: { retroId, userId },
+  });
+}
+
+
+export function getRetroListItems({ userId }: { userId: User["id"] }) {
+  return prisma.retro.findMany({
     where: { userId },
-    select: { id: true, title: true },
+    select: { retroId: true, title: true },
     orderBy: { updatedAt: "desc" },
   });
 }
@@ -41,6 +54,35 @@ export function createNote({
     },
   });
 }
+
+export function createRetro({
+  userId,
+  title
+  }: {
+  userId: User["id"];
+  } & Pick<Retro, "title">){
+  return prisma.retro.create({
+    data: {
+      title,
+      user: {
+        connect: {
+          id: userId,
+        },
+      },
+    },
+  });
+}
+
+
+export function getRetroCards({
+  retroId,
+}: Pick<Retro, "retroId">) {
+  return prisma.retroCard.findMany({
+    select: { body: true, retroColumn: true },
+    where: { retroId },
+  });
+}
+
 
 export function deleteNote({
   id,
